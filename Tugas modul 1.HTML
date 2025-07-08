@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Formulir Pendaftaran Mahasiswa Baru</title>
+</head>
+<body style="background-color: #f0f8ff; margin: 20px; font-family: Arial, sans-serif;">
+
+    <!-- Logo STITEK Bontang -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <img src="LOGO.png" alt="Logo STITEK Bontang" width="150" />
+    </div>
+
+    <!-- Heading Utama -->
+    <h1 style="text-align: center; color: #003366;">Formulir Pendaftaran Mahasiswa Baru STITEK Bontang</h1>
+
+    <!-- Formulir Pendaftaran -->
+    <form onsubmit="return handleSubmit()" style="max-width: 600px; margin: 0 auto;">
+
+        <!-- Data Pribadi -->
+        <fieldset style="border: 2px solid #003366; padding: 15px; margin-bottom: 20px;">
+            <legend style="font-weight: bold; color: #003366;">Data Pribadi</legend>
+
+            <label for="nama" style="display: block; margin-bottom: 5px;">Nama Lengkap <span style="color:red;">*</span>:</label>
+            <input 
+                type="text" 
+                id="nama" 
+                name="nama" 
+                placeholder="Masukkan nama lengkap Anda" 
+                required 
+                style="width: 100%; padding: 8px; margin-bottom: 15px; box-sizing: border-box;"
+            />
+
+            <label for="email" style="display: block; margin-bottom: 5px;">Email <span style="color:red;">*</span>:</label>
+            <input 
+                type="email" 
+                id="email" 
+                name="email" 
+                placeholder="contoh@mail.com" 
+                required 
+                style="width: 100%; padding: 8px; margin-bottom: 15px; box-sizing: border-box;"
+            />
+
+            <p style="margin: 0 0 10px 0;">Jenis Kelamin <span style="color:red;">*</span>:</p>
+            <input type="radio" id="pria" name="jenis_kelamin" value="Pria" required />
+            <label for="pria" style="margin-right: 20px;">Pria</label>
+            <input type="radio" id="wanita" name="jenis_kelamin" value="Wanita" required />
+            <label for="wanita">Wanita</label>
+        </fieldset>
+
+        <!-- Hobi -->
+        <fieldset style="border: 2px solid #003366; padding: 15px; margin-bottom: 20px;">
+            <legend style="font-weight: bold; color: #003366;">Hobi (pilih minimal 2)</legend>
+            <input type="checkbox" id="membaca" name="hobi" value="Membaca" />
+            <label for="membaca" style="margin-right: 15px;">Membaca</label>
+
+            <input type="checkbox" id="olahraga" name="hobi" value="Olahraga" />
+            <label for="olahraga" style="margin-right: 15px;">Olahraga</label>
+
+            <input type="checkbox" id="musik" name="hobi" value="Musik" />
+            <label for="musik" style="margin-right: 15px;">Musik</label>
+
+            <input type="checkbox" id="lainnya" name="hobi" value="Lainnya" />
+            <label for="lainnya">Lainnya</label>
+            <p style="font-size: small; color: gray; margin-top: 8px;">
+                *Minimal pilih dua hobi.
+            </p>
+        </fieldset>
+
+        <!-- Jurusan -->
+        <fieldset style="border: 2px solid #003366; padding: 15px; margin-bottom: 20px;">
+            <legend style="font-weight: bold; color: #003366;">Jurusan</legend>
+            <label for="jurusan" style="display: block; margin-bottom: 5px;">Pilih Jurusan:</label>
+            <select id="jurusan" name="jurusan" required style="width: 100%; padding: 8px; box-sizing: border-box;">
+                <option value="" disabled selected>-- Pilih Jurusan --</option>
+                <option value="Teknik Informatika">Teknik Informatika</option>
+                <option value="Teknik Elektro">Teknik Elektro</option>
+                <option value="Bisnis Digital">Bisnis Digital</option>
+            </select>
+        </fieldset>
+
+        <!-- Alamat -->
+        <fieldset style="border: 2px solid #003366; padding: 15px; margin-bottom: 20px;">
+            <legend style="font-weight: bold; color: #003366;">Alamat Lengkap (Opsional)</legend>
+            <label for="alamat" style="display: block; margin-bottom: 5px;">Alamat:</label>
+            <textarea 
+                id="alamat" 
+                name="alamat" 
+                rows="4" 
+                placeholder="Masukkan alamat lengkap Anda" 
+                style="width: 100%; padding: 8px; box-sizing: border-box;"
+            ></textarea>
+        </fieldset>
+
+        <!-- Tombol Submit -->
+        <div style="text-align: center;">
+            <input type="submit" value="Daftar" style="padding: 10px 20px; font-size: 16px; background-color: #003366; color: white; border: none; cursor: pointer;" />
+        </div>
+    </form>
+
+    <!-- Link Informasi Kampus -->
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="https://stitek-bontang.ac.id" target="_blank" style="color: #003366; text-decoration: none; font-weight: bold;">
+            Informasi Kampus STITEK Bontang
+        </a>
+    </div>
+
+    <!-- Script Validasi dan Notifikasi -->
+    <script>
+    function handleSubmit() {
+        const hobiTerpilih = document.querySelectorAll('input[name="hobi"]:checked');
+        if (hobiTerpilih.length < 2) {
+            alert("Silakan pilih minimal dua hobi.");
+            return false;
+        }
+
+        alert("Selamat! Data Anda sudah berhasil diinput.");
+        return true; // Form tetap dikirim jika menggunakan backend
+    }
+    </script>
+
+</body>
+</html>
