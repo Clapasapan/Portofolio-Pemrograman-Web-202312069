@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Toko Elektronik Cepat</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    body {
+      background-color: #afc6ea;
+    }
+    .product-image {
+      width: 100%;
+      height: 250px;
+      object-fit: contain;
+    }
+    .bg-softpurple {
+      background-color: #e0d6ea !important;
+    }
+    .text-softpurple {
+      color: #d59cf6;
+    }
+    .btn-softpurple {
+      background-color: #cda4de;
+      border-color: #cda4de;
+      color: #b296b9;
+    }
+    .btn-softpurple:hover {
+      background-color: #b079c5;
+      border-color: #78418cd8;
+    }
+    .border-softpurple {
+      border: 1px solid #ba8acb;
+    }
+    .summary-box {
+      background-color: #dfc0f4;
+      border: 1px solid #d1b8e0;
+      padding: 16px;
+      border-radius: 8px;
+      color: #b488c4;
+      margin-top: 1rem;
+    }
+    .summary-box h5 {
+      margin-bottom: 12px;
+    }
+    .summary-box p {
+      margin: 4px 0;
+    }
+    .summary-box .total {
+      font-weight: bold;
+      margin-top: 10px;
+      font-size: 1.1rem;
+      color: #977aa9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container py-4">
+    <h1 class="text-center text-white mb-3">Toko Elektronik Cepat</h1>
+    <p id="waktu" class="text-center text-"></p>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="border-softpurple p-3 bg-softpurple text-center">
+          <img id="gambarProduk" class="product-image" />
+          <h4 id="namaProduk" class="mt-3 text-softpurple"></h4>
+          <p id="hargaProduk" class="text-softpurple fw-bold"></p>
+          <button class="btn btn-softpurple me-2" onclick="gantiGambar(-1)">Previous</button>
+          <button class="btn btn-softpurple" onclick="gantiGambar(1)">Next</button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="list-group border-softpurple bg-softpurple" id="daftarProduk"></div>
+      </div>
+    </div>
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="border-softpurple p-3 bg-softpurple">
+          <h5 class="text-softpurple">Form Pemesanan</h5>
+          <div class="mb-2">
+            <label class="text-softpurple">Nama Pemesan:</label>
+            <input type="text" id="namaPemesan" class="form-control"/>
+          </div>
+          <div class="mb-2">
+            <label class="text-softpurple">Jumlah Pesan:</label>
+            <input type="number" id="jumlahPesan" class="form-control"/>
+          </div>
+          <div class="mb-2">
+            <label class="text-softpurple">Kode Promo:</label>
+            <input type="text" id="kodePromo" class="form-control"/>
+          </div>
+          <button class="btn btn-softpurple" onclick="prosesPesanan()">Pesan Sekarang</button>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="summary-box">
+          <h5>Ringkasan Pesanan</h5>
+          <p><strong>Order ID:</strong> <span id="sumOrderID">-</span></p>
+          <p><strong>Nama:</strong> <span id="sumNama">-</span></p>
+          <p><strong>Produk:</strong> <span id="sumProduk">-</span></p>
+          <p><strong>Jumlah:</strong> <span id="sumJumlah">-</span></p>
+          <p><strong>Subtotal:</strong> <span id="sumSubtotal">-</span></p>
+          <p><strong>Potongan:</strong> <span id="sumPotongan">-</span></p>
+          <p class="total">Total Akhir: <span id="sumTotal">-</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const produk = [
+      {
+        nama: "Macbook Pro 2020",
+        harga: 12000000,
+        gambar: [
+          "https://p.turbosquid.com/ts-thumb/8v/6jwEe9/wa/prosilicon50001/png/1627387973/600x600/fit_q87/7becc205ee6908f04a4c5604ce01d8e314b4044a/prosilicon50001.jpg"
+        ]
+      },
+      {
+        nama: "AirPods Gen3",
+        harga: 3500000,
+        gambar: [
+          "data:image/jpeg;base64,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"
+        ]
+      },
+      {
+        nama: "iPad Air 10",
+        harga: 7500000,
+        gambar: [
+          "data:image/jpeg;base64,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"
+        ]
+      }
+    ];
+    
+    let idxProd = 0, idxGbr = 0;
+
+    function tampilkanWaktu() {
+      document.getElementById("waktu").textContent = new Date().toLocaleString();
+    }
+    setInterval(tampilkanWaktu, 1000); tampilkanWaktu();
+
+    function tampilkanProduk(i) {
+      const p = produk[i];
+      document.getElementById("namaProduk").textContent = p.nama;
+      document.getElementById("hargaProduk").textContent = "Rp " + p.harga.toLocaleString();
+      document.getElementById("gambarProduk").src = p.gambar[idxGbr];
+    }
+
+    function gantiGambar(a) {
+      idxGbr = (idxGbr + a + produk[idxProd].gambar.length) % produk[idxProd].gambar.length;
+      tampilkanProduk(idxProd);
+    }
+
+    function tampilkanDaftarProduk() {
+      const d = document.getElementById("daftarProduk");
+      d.innerHTML = "";
+      produk.forEach((p, i) => {
+        const btn = document.createElement("button");
+        btn.className = "list-group-item list-group-item-action";
+        btn.textContent = `${p.nama} - Rp ${p.harga.toLocaleString()}`;
+        btn.onclick = () => {
+          idxProd = i; idxGbr = 0;
+          tampilkanProduk(i);
+        };
+        d.appendChild(btn);
+      });
+    }
+
+    function prosesPesanan() {
+      const nama = document.getElementById("namaPemesan").value.trim();
+      const jumlah = parseInt(document.getElementById("jumlahPesan").value);
+      const kode = document.getElementById("kodePromo").value.trim().toUpperCase();
+
+      if (!nama || isNaN(jumlah) || jumlah <= 0) {
+        alert("Nama & jumlah harus diisi dengan benar.");
+        return;
+      }
+
+      const p = produk[idxProd];
+      const subtotal = p.harga * jumlah;
+      const potongan = (kode === "DISKON10" ? subtotal * 0.1 : 0);
+      const total = subtotal - potongan;
+      const orderID = "INV-" + Math.floor(Math.random() * 100000);
+
+      document.getElementById("sumOrderID").textContent = orderID;
+      document.getElementById("sumNama").textContent = nama;
+      document.getElementById("sumProduk").textContent = p.nama;
+      document.getElementById("sumJumlah").textContent = jumlah + " pcs";
+      document.getElementById("sumSubtotal").textContent = "Rp " + subtotal.toLocaleString();
+      document.getElementById("sumPotongan").textContent = "Rp " + potongan.toLocaleString();
+      document.getElementById("sumTotal").textContent = "Rp " + total.toLocaleString();
+    }
+
+    tampilkanProduk(idxProd);
+    tampilkanDaftarProduk();
+  </script>
+</body>
+</html>
