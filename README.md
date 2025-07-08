@@ -10,7 +10,7 @@
 
 ### [Modul 3](modul-3/)
 - Menambahkan interaktivitas dengan JavaScript
-## 📦 Modul 4 sampai 6
+## Modul 4 sampai 6
 
 ### Modul 4 - JavaScript Dasar
 📁 [modul4](./modul4)  
