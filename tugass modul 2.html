@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Layout Kotak Responsive</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 36px;
+      margin-top: 20px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 0 10px;
+    }
+
+    .box1, .box2, .box3 {
+      border: 2px solid black;
+      padding: 10px;
+      height: 150px;
+      border-radius: 10px;
+      color: black;
+    }
+
+    .box1 { background-color: #ff9999; }
+    .box2 { background-color: #99ff99; }
+    .box3 { background-color: #9999ff; }
+
+    p {
+      border-radius: 8px;
+      background-color: rgba(255,255,255,0.7);
+      padding: 10px;
+    }
+
+    /* Tablet: 2 kolom */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    /* Smartphone: 1 kolom + ubah tinggi & font */
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .container {
+        grid-template-columns: 1fr;
+      }
+
+      .box1, .box2, .box3 {
+        height: 120px;
+      }
+
+      p {
+        padding: 6px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Layout Kotak Responsive</h1>
+
+  <div class="container">
+    <div class="box1">
+      <p>Cla.</p>
+    </div>
+    <div class="box2">
+      <p>salma.</p>
+    </div>
+    <div class="box3">
+      <p>leak dan marni.</p>
+    </div>
+  </div>
+
+</body>
+</html>
